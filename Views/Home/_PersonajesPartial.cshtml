@@ -1,0 +1,70 @@
+﻿@model IEnumerable<paginapandita.Models.Personaje>
+
+<style>
+    @@keyframes cardNeon {
+        0%, 100% {
+            box-shadow: 0 0 8px rgba(0,180,216,0.3);
+            border-color: #1c2541;
+        }
+
+        50% {
+            box-shadow: 0 0 22px rgba(0,245,212,0.7);
+            border-color: #00f5d4;
+        }
+    }
+
+    .anime-card {
+        transition: transform 0.25s ease;
+        cursor: pointer;
+        border: 2px solid #1c2541;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: rgba(11, 19, 43, 0.9) !important;
+        animation: cardNeon 3s infinite ease-in-out;
+    }
+
+        .anime-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: #00f5d4;
+            box-shadow: 0 12px 30px rgba(0,245,212,0.4);
+        }
+
+    .card-img-fixed {
+        height: 360px;
+        width: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .card-title-neon {
+        color: #00f5d4;
+        text-shadow: 0 0 8px #00b4d8;
+        font-weight: bold;
+    }
+
+    .card-poder {
+        color: #00b4d8;
+    }
+</style>
+
+<div class="row mt-4">
+    @foreach (var personaje in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow anime-card">
+                <img src="@personaje.ImagenUrl"
+                     class="card-img-fixed"
+                     alt="@personaje.Nombre" />
+                <div class="card-body text-light">
+                    <h5 class="card-title card-title-neon">@personaje.Nombre</h5>
+                    <p class="card-text"><strong>@personaje.Rol</strong></p>
+                    <p class="card-text">
+                        <strong>💥 Poderes:</strong>
+                        <span class="card-poder">@personaje.Poder</span>
+                    </p>
+                    <p class="card-text small text-muted">@personaje.Descripcion</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

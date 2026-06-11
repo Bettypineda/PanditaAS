@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Biblioteca Manga - Home";
+}
+
+<style>
+    body {
+        background: radial-gradient(ellipse at center, #1c2541 0%, #0b132b 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    @@keyframes neonPulse {
+        0%, 100% {
+            text-shadow: 0 0 5px #00f5d4, 0 0 10px #00b4d8, 0 0 20px #00b4d8;
+        }
+
+        50% {
+            text-shadow: 0 0 15px #00f5d4, 0 0 30px #00b4d8, 0 0 60px #00b4d8;
+        }
+    }
+
+    @@keyframes neonBadge {
+        0%, 100% {
+            box-shadow: 0 0 5px #00b4d8, 0 0 10px #00b4d8;
+            border-color: #00b4d8;
+        }
+
+        50% {
+            box-shadow: 0 0 15px #00f5d4, 0 0 30px #00b4d8;
+            border-color: #00f5d4;
+        }
+    }
+
+    @@keyframes pulseNeon {
+        0%, 100% {
+            box-shadow: 0 0 10px rgba(0,180,216,0.3);
+            border-color: #1c2541;
+        }
+
+        50% {
+            box-shadow: 0 0 30px rgba(0,245,212,0.8);
+            border-color: #00f5d4;
+        }
+    }
+
+    .neon-title {
+        color: #00f5d4;
+        animation: neonPulse 2.5s infinite ease-in-out;
+        font-weight: bold;
+    }
+
+    .neon-subtitle {
+        color: #00b4d8;
+        text-shadow: 0 0 8px #00b4d8;
+    }
+
+    .neon-badge {
+        display: inline-block;
+        color: #00f5d4;
+        border: 1.5px solid #00b4d8;
+        border-radius: 20px;
+        padding: 6px 18px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin: 4px;
+        animation: neonBadge 2.5s infinite ease-in-out;
+        background: transparent;
+        letter-spacing: 0.5px;
+    }
+
+    .main-cover {
+        border: 3px solid #1c2541;
+        animation: pulseNeon 2.5s infinite ease-in-out;
+        transition: transform 0.2s;
+        cursor: pointer;
+        border-radius: 0.5rem;
+    }
+
+        .main-cover:hover {
+            transform: scale(1.02);
+        }
+
+    .header-box {
+        background: rgba(11, 19, 43, 0.85);
+        border: 1px solid #00b4d8 !important;
+        box-shadow: 0 0 18px rgba(0,180,216,0.25);
+    }
+
+    .portada-box {
+        background: rgba(11, 19, 43, 0.85);
+        border: 1px solid #00b4d8 !important;
+        box-shadow: 0 0 18px rgba(0,180,216,0.2);
+    }
+</style>
+
+<div class="container mt-5">
+
+
+    
+    <div class="header-box text-light p-4 rounded shadow mb-5">
+        <h1 class="text-center mb-3 neon-title">🐼 BIENVENIDO A BIBLIOTECA DE ANIME</h1>
+        <hr style="border-color: #00b4d8; opacity: 0.5;" />
+        <div class="row text-center mt-3 text-light">
+            <div class="col-md-6">
+                <p><strong>Curso:</strong> Sistemas Operativos I</p>
+                <p><strong>Fase:</strong> Proyecto Final ASP.NET MVC con .NET 9</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Integrantes:</strong> Augusto Morán / Betty Parada</p>
+                <p><strong>Estado:</strong> Versión 1</p>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <span class="neon-badge">ASP.NET Core 9.0</span>
+            <span class="neon-badge">Biblioteca Interactiva</span>
+            <span class="neon-badge">Manga & Anime</span>
+        </div>
+    </div>
+
+
+
+    <div class="portada-box text-center p-4 rounded shadow mb-4">
+        <h2 class="neon-title mb-2">ANIME:TODO EN UN MISMO LUAGR</h2>
+        <h5 class="neon-subtitle mb-4">👇 ¡Haz clic en la portada para desplegar la biblioteca!</h5>
+        <img src="https://images.unsplash.com/photo-1627556587422-720042cfbcf4?w=600"
+             id="btnPortada"
+             class="img-fluid shadow-lg main-cover"
+             style="max-height: 380px;"
+             alt="Principal Biblioteca Gratuita" />
+    </div>
+
+    <div id="contenedorPersonajes" class="mt-5"></div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#btnPortada").click(function () {
+                $.ajax({
+                    url: '@Url.Action("ObtenerPersonajes", "Home")',
+                    type: 'GET',
+                    success: function (resultado) {
+                        $("#contenedorPersonajes").html(resultado);
+                        $('html, body').animate({
+                            scrollTop: $("#contenedorPersonajes").offset().top - 20
+                        }, 500);
+                    },
+                    error: function () {
+                        alert("Error al conectar con el servidor.");
+                    }
+                });
+            });
+        });
+    </script>
+}
