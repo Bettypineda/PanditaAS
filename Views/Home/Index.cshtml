@@ -3,12 +3,70 @@
 }
 
 <style>
+    /* ===== FONDO COLLAGE ANIME ===== */
     body {
-        background: radial-gradient(ellipse at center, #1c2541 0%, #0b132b 100%);
+        background-color: #0b132b;
         background-attachment: fixed;
         min-height: 100vh;
+        position: relative;
     }
 
+        /* Collage de fondo con SVG patterns + pseudo-elemento */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(ellipse at 20% 30%, rgba(0,180,216,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(0,245,212,0.06) 0%, transparent 60%), radial-gradient(ellipse at 50% 50%, rgba(11,19,43,0.7) 0%, transparent 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+    /* Símbolos flotantes de anime en el fondo */
+    .anime-bg-symbols {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+        .anime-bg-symbols span {
+            position: absolute;
+            font-size: clamp(1.5rem, 3vw, 3rem);
+            opacity: 0.07;
+            color: #00f5d4;
+            filter: drop-shadow(0 0 6px #00b4d8);
+            animation: floatSymbol linear infinite;
+            user-select: none;
+        }
+
+    @@keyframes floatSymbol {
+        0% {
+            transform: translateY(110vh) rotate(0deg);
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 0.07;
+        }
+
+        90% {
+            opacity: 0.07;
+        }
+
+        100% {
+            transform: translateY(-10vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Asegura que el contenido quede encima del fondo */
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ===== NEON ===== */
     @@keyframes neonPulse {
         0%, 100% {
             text-shadow: 0 0 5px #00f5d4, 0 0 10px #00b4d8, 0 0 20px #00b4d8;
@@ -81,24 +139,172 @@
         }
 
     .header-box {
-        background: rgba(11, 19, 43, 0.85);
+        background: rgba(11,19,43,0.88);
         border: 1px solid #00b4d8 !important;
-        box-shadow: 0 0 18px rgba(0,180,216,0.25);
+        box-shadow: 0 0 20px rgba(0,180,216,0.25);
     }
 
     .portada-box {
-        background: rgba(11, 19, 43, 0.85);
+        background: rgba(11,19,43,0.88);
         border: 1px solid #00b4d8 !important;
         box-shadow: 0 0 18px rgba(0,180,216,0.2);
     }
+
+    /* ===== FLIP CARDS ===== */
+    .flip-card {
+        perspective: 1000px;
+        height: 460px;
+        cursor: pointer;
+    }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1);
+        transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: 2px solid rgba(0,180,216,0.4);
+        box-shadow: 0 0 15px rgba(0,180,216,0.2);
+    }
+
+    .flip-card-front {
+        background: #0b132b;
+    }
+
+        .flip-card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .flip-card-front .front-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(11,19,43,0.97));
+            padding: 1.5rem 1rem 1rem;
+        }
+
+    .flip-card-back {
+        background: rgba(11,19,43,0.97);
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1.8rem 1.5rem;
+    }
+
+    @@keyframes cardGlow {
+        0%, 100% {
+            box-shadow: 0 0 8px rgba(0,180,216,0.2);
+            border-color: rgba(0,180,216,0.4);
+        }
+
+        50% {
+            box-shadow: 0 0 25px rgba(0,245,212,0.5);
+            border-color: #00f5d4;
+        }
+    }
+
+    .flip-card:hover .flip-card-front,
+    .flip-card:hover .flip-card-back {
+        animation: cardGlow 1.5s infinite ease-in-out;
+    }
+
+    .back-title {
+        color: #00f5d4;
+        font-size: 1.3rem;
+        font-weight: 800;
+        text-shadow: 0 0 10px #00b4d8;
+        margin-bottom: 1rem;
+    }
+
+    .back-badge {
+        display: inline-block;
+        background: rgba(0,180,216,0.15);
+        border: 1px solid #00b4d8;
+        color: #00f5d4;
+        border-radius: 12px;
+        padding: 3px 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        letter-spacing: 0.5px;
+    }
+
+    .back-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 0.7rem;
+        color: #c9d6df;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+        .back-row .label {
+            color: #00b4d8;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+    .back-hint {
+        margin-top: auto;
+        color: rgba(0,180,216,0.5);
+        font-size: 0.75rem;
+        text-align: center;
+    }
+
+    .front-title {
+        color: #00f5d4;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-shadow: 0 0 8px #00b4d8;
+        margin-bottom: 0.2rem;
+    }
+
+    .front-sub {
+        color: #8ab4c9;
+        font-size: 0.8rem;
+    }
+
+    .flip-hint {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        background: rgba(0,180,216,0.2);
+        border: 1px solid rgba(0,180,216,0.5);
+        border-radius: 20px;
+        color: #00f5d4;
+        font-size: 0.7rem;
+        padding: 3px 10px;
+    }
 </style>
+
+<!-- Símbolos flotantes de anime en el fondo -->
+<div class="anime-bg-symbols" id="animeBg"></div>
 
 <div class="container mt-5">
 
-
-    
+    <!-- HEADER -->
     <div class="header-box text-light p-4 rounded shadow mb-5">
-        <h1 class="text-center mb-3 neon-title">🐼 BIENVENIDO A BIBLIOTECA DE ANIME</h1>
+        <h1 class="text-center mb-3 neon-title">🐼 Proyecto: Biblioteca de Manga</h1>
         <hr style="border-color: #00b4d8; opacity: 0.5;" />
         <div class="row text-center mt-3 text-light">
             <div class="col-md-6">
@@ -117,23 +323,41 @@
         </div>
     </div>
 
-
-
-    <div class="portada-box text-center p-4 rounded shadow mb-4">
-        <h2 class="neon-title mb-2">ANIME:TODO EN UN MISMO LUAGR</h2>
+    <!-- PORTADA DEMON SLAYER -->
+    <div class="portada-box text-center p-4 rounded shadow mb-5">
+        <h2 class="neon-title mb-2">Demon Slayer: Kimetsu no Yaiba</h2>
         <h5 class="neon-subtitle mb-4">👇 ¡Haz clic en la portada para desplegar la biblioteca!</h5>
         <img src="https://images.unsplash.com/photo-1627556587422-720042cfbcf4?w=600"
              id="btnPortada"
              class="img-fluid shadow-lg main-cover"
              style="max-height: 380px;"
-             alt="Principal Biblioteca Gratuita" />
+             alt="Portada Principal Demon Slayer" />
     </div>
 
+    <!-- TARJETAS FLIP -->
     <div id="contenedorPersonajes" class="mt-5"></div>
+
 </div>
 
 @section Scripts {
     <script>
+        /* ---- Fondo flotante de símbolos animee ---- */
+        (function () {
+            const symbols = ['⚔️','🌊','🔥','💥','🌀','✨','🐉','👁️','⛩️','🌸','🎭','🗡️','🌙','⭐','🎌','💫','🦊','🐼'];
+            const container = document.getElementById('animeBg');
+            const count = 35;
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement('span');
+                span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                span.style.left = Math.random() * 100 + 'vw';
+                span.style.animationDuration = (12 + Math.random() * 20) + 's';
+                span.style.animationDelay = (-Math.random() * 30) + 's';
+                span.style.fontSize = (1.2 + Math.random() * 2.5) + 'rem';
+                container.appendChild(span);
+            }
+        })();
+
+        /* ---- AJAX portada ---- */
         $(document).ready(function () {
             $("#btnPortada").click(function () {
                 $.ajax({
@@ -141,13 +365,9 @@
                     type: 'GET',
                     success: function (resultado) {
                         $("#contenedorPersonajes").html(resultado);
-                        $('html, body').animate({
-                            scrollTop: $("#contenedorPersonajes").offset().top - 20
-                        }, 500);
+                        $('html, body').animate({ scrollTop: $("#contenedorPersonajes").offset().top - 20 }, 500);
                     },
-                    error: function () {
-                        alert("Error al conectar con el servidor.");
-                    }
+                    error: function () { alert("Error al conectar con el servidor."); }
                 });
             });
         });

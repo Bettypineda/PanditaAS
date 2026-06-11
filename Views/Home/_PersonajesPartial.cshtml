@@ -1,68 +1,183 @@
 ﻿@model IEnumerable<paginapandita.Models.Personaje>
 
 <style>
-    @@keyframes cardNeon {
-        0%, 100% {
-            box-shadow: 0 0 8px rgba(0,180,216,0.3);
-            border-color: #1c2541;
-        }
-
-        50% {
-            box-shadow: 0 0 22px rgba(0,245,212,0.7);
-            border-color: #00f5d4;
-        }
-    }
-
-    .anime-card {
-        transition: transform 0.25s ease;
+    /* ===== FLIP CARDS ===== */
+    .flip-card {
+        perspective: 1000px;
+        height: 460px;
         cursor: pointer;
-        border: 2px solid #1c2541;
-        border-radius: 0.5rem;
-        overflow: hidden;
-        background: rgba(11, 19, 43, 0.9) !important;
-        animation: cardNeon 3s infinite ease-in-out;
     }
 
-        .anime-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            border-color: #00f5d4;
-            box-shadow: 0 12px 30px rgba(0,245,212,0.4);
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1);
+        transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: 2px solid rgba(0,180,216,0.4);
+        box-shadow: 0 0 15px rgba(0,180,216,0.2);
+        transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .flip-card:hover .flip-card-front,
+    .flip-card:hover .flip-card-back {
+        box-shadow: 0 0 28px rgba(0,245,212,0.5);
+        border-color: #00f5d4;
+    }
+
+    .flip-card-front {
+        background: #0b132b;
+    }
+
+        .flip-card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
-    .card-img-fixed {
-        height: 360px;
-        width: 100%;
-        object-fit: cover;
-        display: block;
+        .flip-card-front .front-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(11,19,43,0.97));
+            padding: 2rem 1rem 1rem;
+        }
+
+    .flip-card-back {
+        background: rgba(11,19,43,0.97);
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1.8rem 1.5rem;
     }
 
-    .card-title-neon {
+    .flip-hint-badge {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        background: rgba(0,180,216,0.18);
+        border: 1px solid rgba(0,180,216,0.5);
+        border-radius: 20px;
         color: #00f5d4;
-        text-shadow: 0 0 8px #00b4d8;
-        font-weight: bold;
+        font-size: 0.68rem;
+        padding: 3px 10px;
+        z-index: 2;
     }
 
-    .card-poder {
-        color: #00b4d8;
+    .front-title {
+        color: #00f5d4;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-shadow: 0 0 8px #00b4d8;
+        margin-bottom: 0.2rem;
+    }
+
+    .front-sub {
+        color: #8ab4c9;
+        font-size: 0.8rem;
+    }
+
+    .back-title {
+        color: #00f5d4;
+        font-size: 1.25rem;
+        font-weight: 800;
+        text-shadow: 0 0 10px #00b4d8;
+        margin-bottom: 0.5rem;
+    }
+
+    .back-genre-badge {
+        display: inline-block;
+        background: rgba(0,180,216,0.15);
+        border: 1px solid #00b4d8;
+        color: #00f5d4;
+        border-radius: 12px;
+        padding: 3px 12px;
+        font-size: 0.73rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .back-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 0.65rem;
+        color: #c9d6df;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+        .back-row .lbl {
+            color: #00b4d8;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+    .back-divider {
+        border: none;
+        border-top: 1px solid rgba(0,180,216,0.2);
+        margin: 0.8rem 0;
+    }
+
+    .back-hint {
+        color: rgba(0,180,216,0.45);
+        font-size: 0.73rem;
+        text-align: center;
+        margin-top: auto;
     }
 </style>
 
-<div class="row mt-4">
+<div class="row mt-4 pb-5">
     @foreach (var personaje in Model)
     {
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow anime-card">
-                <img src="@personaje.ImagenUrl"
-                     class="card-img-fixed"
-                     alt="@personaje.Nombre" />
-                <div class="card-body text-light">
-                    <h5 class="card-title card-title-neon">@personaje.Nombre</h5>
-                    <p class="card-text"><strong>@personaje.Rol</strong></p>
-                    <p class="card-text">
-                        <strong>💥 Poderes:</strong>
-                        <span class="card-poder">@personaje.Poder</span>
-                    </p>
-                    <p class="card-text small text-muted">@personaje.Descripcion</p>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+
+                    <!-- FRENTE -->
+                    <div class="flip-card-front">
+                        <span class="flip-hint-badge">👆 clic para info</span>
+                        <img src="@personaje.ImagenUrl" alt="@personaje.Nombre" />
+                        <div class="front-label">
+                            <div class="front-title">@personaje.Nombre</div>
+                            <div class="front-sub">@personaje.Rol</div>
+                        </div>
+                    </div>
+
+                    <!-- REVERSO -->
+                    <div class="flip-card-back">
+                        <div class="back-title">@personaje.Nombre</div>
+                        <span class="back-genre-badge">@personaje.Rol</span>
+                        <hr class="back-divider" />
+                        <div class="back-row">
+                            <span class="lbl">💥 Poderes:</span>
+                            <span>@personaje.Poder</span>
+                        </div>
+                        <div class="back-row">
+                            <span class="lbl">📖 Historia:</span>
+                            <span>@personaje.Descripcion</span>
+                        </div>
+                        <hr class="back-divider" />
+                        <p class="back-hint">👆 clic para ver la portada</p>
+                    </div>
+
                 </div>
             </div>
         </div>

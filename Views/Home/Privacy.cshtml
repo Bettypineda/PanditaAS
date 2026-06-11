@@ -1,6 +1,171 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Acerca del Proyecto - panditaAS";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<style>
+    body {
+        background: radial-gradient(ellipse at center, #1c2541 0%, #0b132b 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    @@keyframes neonPulse {
+        0%, 100% {
+            text-shadow: 0 0 5px #00f5d4, 0 0 15px #00b4d8;
+        }
+
+        50% {
+            text-shadow: 0 0 20px #00f5d4, 0 0 40px #00b4d8;
+        }
+    }
+
+    @@keyframes borderGlow {
+        0%, 100% {
+            border-left-color: #00b4d8;
+            box-shadow: -3px 0 12px rgba(0,180,216,0.3);
+        }
+
+        50% {
+            border-left-color: #00f5d4;
+            box-shadow: -3px 0 25px rgba(0,245,212,0.6);
+        }
+    }
+
+    .page-hero {
+        background: rgba(11,19,43,0.85);
+        border: 1px solid rgba(0,180,216,0.4);
+        border-radius: 0.75rem;
+        box-shadow: 0 0 30px rgba(0,180,216,0.15);
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+    }
+
+        .page-hero h1 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-hero p {
+            color: #8ab4c9;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+    .info-card {
+        background: rgba(11,19,43,0.85);
+        border: 1px solid rgba(0,180,216,0.3);
+        border-left: 4px solid #00b4d8;
+        border-radius: 0.75rem;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        animation: borderGlow 3s infinite ease-in-out;
+    }
+
+        .info-card h4 {
+            color: #00f5d4;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            animation: neonPulse 2.5s infinite ease-in-out;
+            margin-bottom: 1.2rem;
+        }
+
+        .info-card p {
+            color: #c9d6df;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+            .info-card p strong {
+                color: #00b4d8;
+            }
+
+    .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .arch-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #c9d6df;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(0,180,216,0.1);
+    }
+
+        .arch-item:last-child {
+            border-bottom: none;
+        }
+
+    .arch-icon {
+        color: #00f5d4;
+        font-size: 1.2rem;
+    }
+
+    .dev-name {
+        color: #c9d6df;
+        margin-bottom: 0.4rem;
+    }
+
+        .dev-name strong {
+            color: #00b4d8;
+        }
+
+    .dev-rol {
+        color: #8ab4c9;
+        font-size: 0.88rem;
+    }
+
+    @@media (max-width: 768px) {
+        .two-col {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="container mt-5 pb-5">
+
+    <div class="page-hero">
+        <h1>📚 Biblioteca Interactiva de Manga & Anime</h1>
+        <p>Exploración Cultural y Tecnológica del Mundo del Manga mediante ASP.NET Core y AJAX</p>
+    </div>
+
+    <div class="info-card">
+        <h4>🎯 Propósito del Sistema</h4>
+        <p>
+            Esta plataforma nace como una experiencia interactiva dedicada a los grandes títulos del manga y anime.
+            Utilizando <strong>ASP.NET Core 9.0 MVC</strong>, la aplicación permite explorar universos como
+            <strong>Demon Slayer</strong>, <strong>Naruto</strong>, <strong>Jujutsu Kaisen</strong> y
+            <strong>One Piece</strong> de forma dinámica, sin recargas de página, gracias a llamadas
+            <strong>AJAX</strong> que inyectan contenido al instante. El objetivo es demostrar que tecnología moderna
+            y cultura pop pueden combinarse para crear experiencias web inmersivas, elegantes y funcionales.
+        </p>
+    </div>
+
+    <div class="two-col">
+        <div class="info-card">
+            <h4>⚙️ Arquitectura Utilizada</h4>
+            <div class="arch-item"><span class="arch-icon">📦</span> ASP.NET Core 9.0 MVC</div>
+            <div class="arch-item"><span class="arch-icon">⚡</span> AJAX con jQuery (carga dinámica)</div>
+            <div class="arch-item"><span class="arch-icon">🎨</span> Bootstrap 5 + CSS Neón Personalizado</div>
+            <div class="arch-item"><span class="arch-icon">🗂️</span> Patrón MVC con Vistas Parciales</div>
+            <div class="arch-item"><span class="arch-icon">☁️</span> Despliegue en Entorno Cloud (Render)</div>
+        </div>
+
+        <div class="info-card">
+            <h4>👨‍💻 Desarrolladores</h4>
+            <p class="dev-name"><strong>Nombre:</strong> Augusto Morán</p>
+            <p class="dev-name"><strong>Nombre:</strong> Betty Parada</p>
+            <p class="dev-rol" style="margin-top:0.8rem;"><strong>Rol:</strong> Ingenieros de Software</p>
+            <p class="dev-rol"><strong>Curso:</strong> Sistemas Operativos I</p>
+            <p class="dev-rol"><strong>Fase:</strong> Proyecto Final ASP.NET MVC con .NET 9</p>
+            <p class="dev-rol"><strong>Estado:</strong> Versión 1</p>
+        </div>
+    </div>
+
+</div>
